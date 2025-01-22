@@ -1,4 +1,3 @@
-
 (function ($) {
 
     "use strict";
@@ -69,6 +68,73 @@
 	
 	});
 	
+	document.addEventListener("DOMContentLoaded", function() {
+        const introTexts = [
+            "Hola, soy:",
+            "Alexander Narváez"
+        ];
+        const typingTexts = [
+            "Software Developer",
+            "Web Developer",
+            "UI/UX Designer",
+        ];
+        const introElements = [
+            document.querySelector(".intro-text-1"),
+            document.querySelector(".intro-text-2")
+        ];
+        const typingElement = document.querySelector(".typing-effect");
+        let introIndex = 0;
+        let introCharIndex = 0;
+        let typingIndex = 0;
+        let typingCharIndex = 0;
+        let isDeleting = false;
+
+        function typeIntro() {
+            const currentText = introTexts[introIndex];
+            const currentElement = introElements[introIndex];
+            if (introCharIndex < currentText.length) {
+                currentElement.textContent += currentText.charAt(introCharIndex);
+                currentElement.classList.add("typing-effect");
+                introCharIndex++;
+                setTimeout(typeIntro, 200);
+            } else {
+                currentElement.classList.remove("typing-effect");
+                currentElement.classList.add("typed");
+                introIndex++;
+                if (introIndex < introTexts.length) {
+                    introCharIndex = 0;
+                    setTimeout(typeIntro, 500);
+                } else {
+                    setTimeout(type, 500); // Inicia el efecto de escritura del tercer texto
+                }
+            }
+        }
+
+        function type() {
+            const currentText = typingTexts[typingIndex];
+            typingElement.style.minHeight = typingElement.offsetHeight + "px"; // Set min-height to prevent shifting
+            if (isDeleting) {
+                typingElement.textContent = currentText.substring(0, typingCharIndex - 1);
+                typingCharIndex--;
+                if (typingCharIndex === 0) {
+                    isDeleting = false;
+                    typingIndex = (typingIndex + 1) % typingTexts.length;
+                }
+            } else {
+                typingElement.textContent = currentText.substring(0, typingCharIndex + 1);
+                typingCharIndex++;
+                if (typingCharIndex === currentText.length) {
+                    isDeleting = true;
+                    setTimeout(() => {
+                        typingElement.classList.remove("typed");
+                    }, 500);
+                }
+            }
+            setTimeout(type, isDeleting ? 100 : 200);
+        }
+
+        typeIntro();
+    });
 	
 })(jQuery);
 

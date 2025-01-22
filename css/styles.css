@@ -212,3 +212,23 @@ b.max-bold{ font-weight: 700; }
 	border-radius: 30px; background: #FFAB00; color: #fff; text-align: center; }
 
 
+.typing-effect {
+  font-family: monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 0.15em solid currentColor;
+  animation: blink-caret 0.75s step-end infinite;
+  display: inline-block;
+  position: relative;
+}
+
+.typing-effect.typed {
+  border-right: 0.15em solid currentColor; /* Ensure the cursor continues to blink */
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: currentColor; }
+}
+
+
